@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MOVIESBYCYHA</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Anton', sans-serif;
+      background-color: #722323;
+      color: #FCF9F0;
+      overflow-x: hidden;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .container {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    /* Scroll fade-in animation */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(40px);
+      visibility: hidden;
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      will-change: opacity, transform;
+    }
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: none;
+      visibility: visible;
+    }
+
+    /* Header */
+    header {
+      background: #ffb1a5;
+      padding:1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: normal;
+      letter-spacing: 0.02em;
+      user-select:none;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header .logo {
+      color: #fff;
+      font-family: 'Anton', sans-serif;
+      font-weight: 400;
+      font-size: 1.5rem;
+      user-select:none;
+    }
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      font-weight: 100;
+      font-family: 'Anton', sans-serif;
+      font-size: 1rem;
+      color: #fff;
+      user-select:none;
+    }
+    nav ul li {
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+    nav ul li:hover {
+      opacity: 0.8;
+    }
+
+    /* Hero - first big section */
+    .hero {
+      margin: 1rem auto 2rem;
+      max-width: 1200px;
+      background: #fff9d1;
+      border-radius: 16px;
+      padding: 2rem 3rem 2rem 3rem;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+      color: #A63D2E;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      user-select:none;
+      overflow: hidden;
+    }
+    .hero-text {
+      flex: 1;
+      max-width: 480px;
+      font-family: 'Anton', sans-serif;
+      line-height: 1.2;
+      user-select:none;
+    }
+    .hero-text h1 {
+      font-weight: 400;
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+      user-select:none;
+      font-family: amoria;
+    }
+    .hero-text p {
+      font-weight: 400;
+      font-family: Arial, sans-serif;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      user-select:none;
+    }
+    .btn-primary {
+      background: #A63D2E;
+      border: none;
+      border-radius: 12px;
+      padding: 0.75rem 2rem;
+      font-family: plaster;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      user-select:none;
+    }
+    .btn-primary:hover {
+      background: #f3e7a2;
+    }
+    .hero-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      user-select:none;
+    }
+    .hero-image img {
+      width: 320px;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      user-select:none;
+    }
+
+    /* Products teaser row (three cards) */
+    .product-teasers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 3rem auto 4rem;
+      padding: 0 3rem;
+    }
+    .product-card {
+      background: #f9f1d2;
+      padding: 2rem 1.5rem 2rem 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      user-select:none;
+    }
+    .product-card img {
+      width: 140px;
+      height: auto;
+      margin-bottom: 1.5rem;
+      object-fit: contain;
+      user-select:none;
+    }
+    .product-card .tag-new {
+      align-self: flex-start;
+      background: #ff6b23;
+      color: white;
+      font-weight: 700;
+      font-family: 'Anton', sans-serif;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      user-select:none;
+    }
+    .product-card h3 {
+      font-family: 'Anton', sans-serif;
+      font-weight: 400;
+      font-size: 1.5rem;
+      color: #214636;
+      margin-bottom: 0.5rem;
+      user-select:none;
+    }
+    .product-card p {
+      font-family: Arial, sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #222;
+      user-select:text;
+    }
+
+    /* Food Made Boldly section */
+    .food-boldly {
+      background: #f9f1d2;
+      border-radius: 16px;
+      margin: 2rem auto 3rem;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 3rem 3rem;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+      user-select:none;
+      gap: 2rem;
+    }
+    .food-boldly-left {
+      flex: 1.2;
+      font-family: 'Anton', sans-serif;
+      font-weight: 400;
+      font-size: 2.5rem;
+      color: #ff621f;
+      line-height: 1.1;
+      user-select:none;
+      max-width: 420px;
+    }
+    .food-boldly-text {
+      font-family: Arial, sans-serif;
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: #222;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      user-select:text;
+      max-width: 400px;
+    }
+    .food-boldly-btn {
+      background: #fff9d1;
+      color: #222;
+      border: none;
+      border-radius: 12px;
+      padding: 0.75rem 2rem;
+      font-weight: 700;
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select:none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .food-boldly-btn:hover {
+      background: #f3e7a2;
+    }
+    .food-boldly-right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      user-select:none;
+    }
+    .food-boldly-right img {
+      max-width: 320px;
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+      user-select:none;
+    }
+
+    /* Cards row after Food Boldly */
+    .recipe-cards-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 3rem auto 4rem;
+      padding: 0 3rem;
+    }
+    .recipe-card {
+      border-radius: 16px;
+      padding: 2rem 1.5rem 2.2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      font-family: Arial, sans-serif;
+      color: #222;
+      box-shadow: 0 12px 40px rgba(255, 98, 31, 0.35);
+      user-select:none;
+    }
+    .recipe-card.orange-bg {
+      background: #ff621f;
+      color: #fff9d1;
+    }
+    .recipe-card.beige-bg {
+      background: #f9f1d2;
+    }
+    .recipe-card img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 0 auto;
+      user-select:none;
+    }
+    .recipe-title {
+      font-family: 'Anton', sans-serif;
+      font-weight: 400;
+      font-size: 1.3rem;
+      text-align: center;
+      margin-bottom: 0.3rem;
+      user-select:none;
+    }
+    .recipe-desc {
+      text-align: center;
+      font-weight: 500;
+      font-size: 0.95rem;
+      user-select:text;
+    }
+    .recipe-meta {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      user-select:none;
+      flex-wrap: wrap;
+    }
+    .recipe-meta span {
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 0.2rem 0.8rem;
+      cursor: default;
+      user-select:none;
+    }
+
+    /* Form Request section */
+    .request-section {
+      background: #f9f1d2;
+      border-radius: 16px;
+      max-width: 1200px;
+      padding: 3rem 3rem 2.5rem 3rem;
+      margin: 3rem auto 3rem;
+      user-select:none;
+    }
+    .request-inner {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .request-info {
+      flex: 1 1 320px;
+      font-family: 'Anton', sans-serif;
+      font-weight: 400;
+      font-size: 2.7rem;
+      color: #222;
+      user-select:none;
+      max-width: 320px;
+      line-height: 1.1;
+    }
+    .request-info-text {
+      font-family: Arial, sans-serif;
+      font-weight: 500;
+      font-size: 1.05rem;
+      margin-top: 1rem;
+      color: #222;
+      user-select:text;
+      max-width: 340px;
+      line-height: 1.4;
+    }
+    form {
+      flex: 2 1 600px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      align-items: center;
+    }
+    form label {
+      font-family: Arial, sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #222;
+      user-select:none;
+    }
+    form input[type="text"],
+    form input[type="email"] {
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 12px;
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
+      box-shadow: inset 0 0 10px rgba(191,179,140,0.6);
+      user-select:text;
+      color: #222;
+      outline-offset: 2px;
+      outline-color: transparent;
+      transition: outline-color 0.25s ease;
+    }
+    form input[type="text"]:focus,
+    form input[type="email"]:focus {
+      outline-color: #ff621f;
+    }
+    form input[name="business-website"] {
+      grid-column: span 2;
+    }
+    form button {
+      grid-column: span 1;
+      background: #ff621f;
+      border: none;
+      padding: 1rem 0;
+      border-radius: 30px;
+      font-family: 'Anton', sans-serif;
+      font-size: 1rem;
+      font-weight: 10;
+      color: #fff9d1;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select:none;
+      max-width: 200px;
+      justify-self: end;
+    }
+    form button:hover {
+      background: #ff4a00;
+    }
+
+    /* Footer */
+    footer {
+      background: #ff621f;
+      padding: 3rem 2rem 3rem 2rem;
+      color: #fff9d1;
+      font-family: 'Anton', sans-serif;
+      user-select:none;
+    }
+    footer .footer-top {
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    footer .footer-top div {
+      cursor: default;
+      user-select:none;
+    }
+    footer .footer-bottom {
+      max-width: 1500px;
+      margin: 0 auto;
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      user-select:none;
+    }
+    footer .footer-logo {
+      font-size: 6rem;
+      font-weight: 400;
+      color: #fff9d1;
+      user-select:none;
+      margin-bottom: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 1280px) {
+      .container {
+        padding: 0 16px;
+      }
+      .hero {
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+      }
+      .hero-text {
+        max-width: 100%;
+        text-align: center;
+      }
+      .hero-image {
+        margin-top: 1.5rem;
+      }
+      .product-teasers {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+      }
+      .food-boldly {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 2rem 1.5rem;
+      }
+      .food-boldly-left {
+        max-width: 100%;
+        text-align: center;
+      }
+      .food-boldly-right img {
+        max-width: 100%;
+      }
+      .recipe-cards-row {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+      }
+      .request-inner {
+        flex-direction: column;
+        padding: 0 1rem;
+      }
+      form {
+        grid-template-columns: 1fr;
+      }
+      form input[name="business-website"] {
+        grid-column: span 1;
+      }
+      form button {
+        justify-self: center;
+        max-width: 100%;
+        padding: 1rem 0;
+      }
+      footer .footer-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        font-size: 0.9rem;
+      }
+      footer .footer-logo {
+        font-size: 4rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">MOVIESBYCYHA</div>
+    <nav aria-label="Primary navigation">
+      <ul>
+        <a href="html top watched.navi.html">TOP WATCHED</a>
+        <a href="html movie review.navi.html">MOVIE REVIEW</a>
+        <a href="html favourite movie.navi.html">FAVOURITE MOVIE</a>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container" tabindex="-1">
+    <!-- Hero Section -->
+    <section class="hero fade-in-section" aria-label="Seafood made boldly hero">
+      <div class="hero-text">
+        <h1>FASIHAH’S WEBSITE</h1>
+        <p>HEY THERE, MOVIE LOVERS !  MY NAME IS NUR FASIHAH. COME ON IN , YOU ARE ABOUT TO STEP INTO A WORLD WHERE THE VIBES ARE ALWAYS CINEMATIC.  ALWAYS FILM.</p>
+        <button class="btn-primary" type="button">IT’S ALL ABOUT THE LOVE OF FILMS</button>
+      </div>
+      <div class="hero-image" aria-hidden="true">
+        <img src="img\mypic" alt="Close up photo of crispy fried seafood pieces floating against clear blue sky background" onerror="this.style.display='none';" />
+      </div>
+    </section>
+
+    <!-- Product Teasers -->
+    <section class="product-teasers" aria-label="Product teasers">
+      <article class="product-card fade-in-section" tabindex="0" aria-labelledby="product-tuna-title">
+        <img src="img\spider" alt="SPIDERMAN" onerror="this.style.display='none';" />
+        <h3 id="THUNDERBOLTS">ACTION-PACKED</h3>
+        <P>Loaded with high-octane sequences and edge-of-your-seat moments.</P>
+      </article>
+      <article class="product-card fade-in-section" tabindex="0" aria-labelledby="product-calamari-title">
+        <img src="img\themeg" alt="the meg" onerror="this.style.display='none';" />
+        <h3 id="product-calamari-title">THRILLER</h3>
+        <p>Twists, turns, and high-stakes moments at every corner.</p>
+      </article>
+      <article class="product-card fade-in-section" tabindex="0" aria-labelledby="product-crabsticks-title">
+        <img src="img\everything" alt="everything once" onerror="this.style.display='none';" />
+        <h3 id="product-crabsticks-title">SCIENCE FICTION</h3>
+        <p>Wildly inventive and action-loaded a cinematic rollercoaster through the multiverse.</p>
+      </article>
+    </section>
+
+    <!-- Food Made Boldly Section -->
+    <section class="food-boldly fade-in-section" aria-label="Food made boldly section">
+      <div class="food-boldly-left">
+        WHY I AM INTO FILMS ?
+        <p class="food-boldly-text">I love films because they transport me to different worlds, stir deep emotions, and let me experience stories far beyond my own reality. Whether it's the beauty of artistic expression such as the beauty of cinematography,the depth of a creative imagination or the arts of storytelling, movies have a way of making me feel, think, and escape all at once.</p>
+        <button class="food-boldly-btn" type="button">WHAT ABOUT YOU ?</button>
+      </div>
+      <div class="food-boldly-right" aria-hidden="true">
+        <img src="img\bbpicc" alt="Seafood and vegetables flying out of a plate with delicate pink and blue sky background" onerror="this.style.display='none';" />
+      </div>
+    </section>
+
+    <!-- Recipe Cards Row -->
+    <section class="recipe-cards-row" aria-label="Recipe cards">
+      <article class="recipe-card orange-bg fade-in-section" tabindex="0" aria-labelledby="recipe-lemon-title">
+        <img src="img\eyes" alt="euphoria" onerror="this.style.display='none';" />
+        <h3 id="recipe-lemon-title" class="recipe-title">Cinematography</h3>
+        <p class="recipe-desc">I love films for how cinematography paints emotion through light, color, and movement turning to simple moments into stunning visual poetry.</p>
+        <div class="recipe-meta">
+          <span>MY FAVOURITE</span>
+          <span>ARTISTRY</span>
+        </div>
+      </article>
+      <article class="recipe-card beige-bg fade-in-section" tabindex="0" aria-labelledby="recipe-sesame-title">
+        <img src="img\creative" alt="imagin" onerror="this.style.display='none';" />
+        <h3 id="recipe-sesame-title" class="recipe-title">Creative Imagination</h3>
+        <p class="recipe-desc">Films are where imagination runs wild. Whether it's a sci-fi epic or an indie drama, cinema allows creators to build entire universes out of nothing.</p>
+        <div class="recipe-meta">
+          <span>MY FAVOURITE</span>
+          <span>UNIQUE</span>
+        </div>
+      </article>
+      <article class="recipe-card orange-bg fade-in-section" tabindex="0" aria-labelledby="recipe-crab-rolls-title">
+        <img src="img\storytel" alt="story" onerror="this.style.display='none';" />
+        <h3 id="recipe-crab-rolls-title" class="recipe-title">Storytelling</h3>
+        <p class="recipe-desc">From emotional character arcs to plot twists that leave you breathless, powerful storytelling is what makes a film truly memorable. It’s the heart of every movie and the reason you keep watching until the end.</p>
+        <div class="recipe-meta">
+          <span>MY FAVOURITE</span>
+          <span>THE PLOT</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- Request Boldly Form Section -->
+    <section class="request-section fade-in-section" aria-label="Request Boldly form">
+      <div class="request-inner">
+        <div class="request-info">
+          PITCH YOUR RECOMMENDATION MOVIE !
+          <p class="request-info-text">LET'S SHARE AND TELLING ME WHAT IS YOUR BEST
+MOVIE THAT YOU EVER WATCHED ,  
+AND ALSO THANK YOU SO MUCH FOR GOING THROUGH MY WEBSITE.</p>
+        </div>
+        <form id="request-form" aria-describedby="form-instructions">
+          <input type="text" id="name" name="name" aria-label="Your Name" placeholder="Your Name" required />
+          <input type="text" id="business-name" name="business-name" aria-label="Genre" placeholder="Genre" required />
+          <input type="text" id="business-website" name="business-website" aria-label="Business Website or Social" placeholder="Recommendations Movies" required />
+          <input type="email" id="email" name="email" aria-label="Email" placeholder="Email" required />
+          <button type="submit" aria-label="Submit Request">Submit</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="footer-logo" aria-label="Boldly brand logo">MOVIESBYCYHA</div>
+    <div class="footer-top" aria-label="Footer site links">
+      <div><a href="https://www.instagram.com/nfsyhaae/?igsh=eXdldXM1aHdycmth" target="_blank" style="color: inherit; text-decoration: none;">Instagram</a></div>
+    <div><a href="https://www.tiktok.com/@defnotsvhaa?_t=ZS-8y7YVaqotsX&_r=1" target="_blank" style="color: inherit; text-decoration: none;">TikTok</a></div>
+    <div><a href="mailto:nurfasihahnazri30@gmail.com" style="color: inherit; text-decoration: none;">Contact</a></div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 MoviesByCyha. All Rights Reserved.<br />
+  </div>
+</footer>
+  
+    </div>
+  </footer>
+
+  <script>
+    // Scroll fade-in animations for .fade-in-section elements
+    document.addEventListener('DOMContentLoaded', () => {
+      const scrollHandler = () => {
+        const windowBottom = window.innerHeight + window.scrollY;
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+          if (section.getBoundingClientRect().top + window.scrollY < windowBottom - 100) { 
+            section.classList.add('is-visible');
+          }
+        });
+      };
+      scrollHandler(); // Run on load in case already visible
+      window.addEventListener('scroll', scrollHandler);
+    });
+
+    // Form submit handling (simple client-side demo)
+    document.getElementById('request-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (e.target.checkValidity()) {
+        alert('Thank you for your request! We will get back to you soon.');
+        e.target.reset();
+      } else {
+        alert('Please fill out all required fields correctly.');
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+

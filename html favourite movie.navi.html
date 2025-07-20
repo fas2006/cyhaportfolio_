@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Star Wars - The Force Awakens</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+    /* Custom fonts */
+    :root {
+      --font-orbitron: 'Orbitron', monospace;
+      --font-mono: 'Share Tech Mono', monospace;
+    }
+
+    body {
+      background: linear-gradient(180deg, #FFE11E 0%, #FFE11E 100%);
+      color: #ccc;
+      font-family: var(--font-mono);
+      overflow-x: hidden;
+    }
+
+    /* Scrollbar hidden but still scroll */
+    body::-webkit-scrollbar {
+      width: 0;
+      background: transparent;
+    }
+
+    /* Container line center vertical */
+    .line-vertical {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+      background: #9F4409(255,255,255,0.1);
+      transform: translateX(-50%);
+      z-index: 5;
+    }
+
+    /* Navbar */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0; right: 0;
+      height: 54px;
+      z-index: 50;
+      background: #ffb1a5;
+      box-shadow: 0 1px 4px rgb(0 0 0 / 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+
+
+    /* Star Wars logo */
+    #logo {
+      font-family: var(--font-orbitron);
+      color: white;
+      font-size: 1.29rem;
+      letter-spacing: 0.20em;
+      user-select: none;
+      font-weight: 720;
+    }
+
+    
+
+    /* Main Section */
+    main {
+      margin-top: 100px;
+      position: relative;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-bottom: 5rem;
+      min-height: 100vh;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 520px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
+    .hero img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      filter: brightness(36%) contrast(95%);
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .hero-overlay {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      color: transparent;
+      user-select: none;
+      -webkit-text-stroke: 1.25px #e0e0e0;
+      font-family: var(--font-orbitron);
+      font-weight: 700;
+      font-size: 3.3rem;
+      letter-spacing: 0.1em;
+      line-height: 1;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      cursor: default;
+    }
+    .hero-overlay small {
+      display: block;
+      font-size: 1.15rem;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.2em;
+      color: #eee;
+      -webkit-text-stroke: 0;
+    }
+    .hero-overlay span.subline {
+      display: block;
+      margin-top: 1.1rem;
+      font-family: var(--font-mono);
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #bbb;
+      cursor: default;
+      user-select: none;
+    }
+
+    .circle-outline {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border: 1px solid #e0e0e0a0;
+      border-radius: 50%;
+      width: 320px;
+      height: 320px;
+      margin-top: -160px;
+      margin-left: -160px;
+      pointer-events: none;
+      z-index: 8;
+    }
+
+    /* Right side menu vertical */
+    nav {
+      position: fixed;
+      top: 110px;
+      right: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      font-family: var(--font-mono);
+      letter-spacing: 0.15em;
+      font-size: 0.87rem;
+      font-weight: 400;
+      user-select: none;
+      color: #d1d1d1;
+      text-transform: uppercase;
+      cursor: pointer;
+      z-index: 50;
+    }
+    nav a {
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      outline-offset: 2px;
+      outline-color: transparent;
+    }
+    nav a:hover,
+    nav a:focus-visible {
+      color: #f9d71c;
+      outline-color: #f9d71c;
+    }
+
+    /* VIDEO section */
+    section#videos {
+      margin-top: 80px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+    section#videos h2 {
+      letter-spacing: 0.175em;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin-bottom: 1.7rem;
+      user-select: none;
+      color: #541919;
+    }
+    .videos-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding-bottom: 10px;
+    }
+    .video-thumb {
+      position: relative;
+      flex: 0 0 auto;
+      width: 38vw;
+      max-width: 400px;
+      aspect-ratio: 16 / 9;
+      border: 2px solid transparent;
+      box-sizing: border-box;
+      cursor: pointer;
+      transition: border-color 0.25s ease, box-shadow 0.3s ease;
+      border-radius: 6px;
+      overflow: hidden;
+      filter: brightness(0.7);
+      background: #304254;
+    }
+    .video-thumb.selected {
+      border-color: #f9d71c;
+      box-shadow: 0 0 16px #f9d71caa;
+      filter: brightness(1);
+    }
+    .video-thumb img, .video-thumb video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+  
+    .video-caption {
+      margin-top: 0.8rem;
+      font-size: 0.76rem;
+      color: #491e1e;
+      user-select: none;
+    }
+
+    /* SYNOPSIS Section */
+    section#synopsis {
+      margin-top: 110px;
+      position: relative;
+      user-select: none;
+    }
+    section#synopsis h2 {
+      text-align: center;
+      letter-spacing: 0.175em;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin-bottom: 3.5rem;
+      color: #541919;
+    }
+    #synopsis-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 3.5rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 1rem;
+    }
+    .synopsis-info {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #7E1717;
+      min-width: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      user-select: none;
+    }
+    .synopsis-info span.label {
+      letter-spacing: 0.12em;
+      color: #7E1717;
+    }
+    .synopsis-info span.value {
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .synopsis-text {
+      max-width: 700px;
+      font-size: 0.9rem;
+      line-height: 1.43;
+      color:#090a0a;
+      user-select: none;
+      margin-left: auto;
+    }
+    .synopsis-image-container {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      border: 1.4px solid #f5efe1;
+      border-radius: 9999px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #252b35 10%, #29303b 100%);
+    }
+    .synopsis-image-container img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      user-select: none;
+      pointer-events: none;
+    }
+    .millenium-falcon {
+      position: absolute;
+      right: 0;
+      top: 35%;
+      width: 90px;
+      height: 50px;
+      user-select: none;
+      pointer-events: none;
+      filter: brightness(0.9);
+      transition: transform 0.7s ease;
+    }
+
+    /* CAST Section */
+    section#cast {
+      margin-top: 100px;
+      user-select: none;
+      text-align: center;
+    }
+    section#cast h2 {
+      letter-spacing: 0.175em;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin-bottom: 2.2rem;
+      color: #2d1515;
+    }
+    .cast-slider {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      overflow: visible;
+      padding: 0 2rem;
+    }
+    .cast-member {
+      width: 90px;
+      flex-shrink: 0;
+      text-align: center;
+      cursor: default;
+      user-select: none;
+      color:#381b1b
+    }
+    .cast-member img {
+      width: 100px;
+      height: 100px;
+      border-radius: 9999px;
+      object-fit: cover;
+      box-shadow: 0 0 6px rgb(249 215 28 / 0.85);
+      border: 2px solid #f9d71c;
+      transition: box-shadow 0.3s ease;
+
+    #RUMI.cast-member img {
+      width: 100px;
+      height: 100px;
+      border-radius: 9999px;
+      object-fit: cover;
+      box-shadow: 0 0 6px rgba(13, 12, 7, 0.85);
+      border: 1.5px solid #000000;
+      transition: box-shadow 0.3s ease;
+    }
+    .cast-member:hover img {
+      box-shadow: 0 0 15px rgb(249 215 28 / 1);
+    }
+    .cast-name {
+      margin-top: 0.9rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      color: #000000;
+      letter-spacing: 0.20em;
+
+    }
+    .cast-role {
+      font-family: var(--font-mono);
+      font-weight: 400;
+      font-size: 1rem;
+      color: #0a0303;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+      user-select: none;
+    }
+    /* Arrows for cast slider */
+   
+
+    /* Tickets Section */
+    section#tickets {
+      margin-top: 110px;
+      text-align: center;
+      user-select: none;
+      max-width: 880px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    section#tickets h2 {
+      letter-spacing: 0.175em;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin-bottom: 1.9rem;
+      color: #381b1b;
+    }
+
+   
+    #get-tickets-btn-bottom {
+      background-color: #000000;
+      color: #0f0d0d;
+      font-weight: 700;
+      padding: 0.80rem 2.3rem;
+      border-radius: 100px;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+      outline-offset: 3px;
+      border: none;
+      box-shadow: 0 0 12px #f9d71caa;
+    }
+    #get-tickets-btn-bottom:hover,
+    #get-tickets-btn-bottom:focus-visible {
+      background-color: #000000;
+      outline-color: #1e1d18;
+    }
+
+    /* Responsive & small tweaks */
+    @media (max-width: 640px) {
+      main {
+        max-width: 100vw;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      nav {
+        right: 1rem;
+        top: 105px;
+        font-size: 0.72rem;
+      }
+      .videos-wrapper {
+        gap: 0.85rem;
+      }
+      .video-thumb {
+        width: 70vw;
+        max-width: none;
+      }
+      #synopsis-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .synopsis-text {
+        margin-left: 0;
+        max-width: 100%;
+      }
+      #get-tickets-btn-top {
+        font-size: 0.75rem;
+        padding: 0.35rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div id="burger" aria-label="Menu" role="button" tabindex="0" aria-expanded="false" aria-controls="navigation-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div id="logo" aria-label="Star Wars logo">KPOP DEMON HUNTERS 2025</div>
+    <button id="get-tickets-btn-top" aria-label="Get tickets">.</button>
+  </header>
+
+  <nav id="navigation-menu" aria-label="Page navigation">
+ 
+  </nav>
+
+  <main>
+    <section class="hero" aria-label="Hero section with Star Wars The Force Awakens visual">
+      <img src="img/kpopfav.jpg" alt="A dark silhouette of an X-Wing Starfighter flying over misty water with other starfighters and environment in the background" onerror="this.onerror=null;this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/264df94c-6a2c-40d2-a296-3540b782eab7.png'" loading="eager" />
+      <div class="circle-outline" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-label="Star Wars The Force Awakens title">
+        <small>KPOP</small>
+        DEMON HUNTERS
+        <span class="subline">SCROLL TO EXPLORE</span>
+      </div>
+    </section>
+    <div class="line-vertical"></div>
+
+    <section id="videos" tabindex="0" aria-label="Videos section">
+      <h2>FAVOURITE SCENES</h2>
+      <div class="videos-wrapper" role="list" aria-live="polite" aria-relevant="all" aria-atomic="true">
+        <div class="video-thumb selected" role="listitem" aria-selected="true" tabindex="0" data-index="0" aria-label="Star Wars The Force Awakens trailer video preview">
+          <img src="img\kpops0.jpg" alt="Action-packed Star Wars The Force Awakens trailer scene showing stormtroopers and battle effects" loading="lazy" />
+          <div class="play-overlay" aria-hidden="true">
+            <svg viewBox="0 0 24 28"><path d="M0 0 L20 14 L0 28 z"></path></svg>
+          </div>
+          <div class="video-caption">STAR WARS: THE FORCE AWAKENS TRAILER (OFFICIAL)</div>
+        </div>
+        <div class="video-thumb" role="listitem" tabindex="0" data-index="1" aria-label="Star Wars Fighter in a snowy mountainous battle">
+          <img src="img\kpop1" alt="A starfighter flying over snowy mountainous terrain, iconic Star Wars scenery" loading="lazy" />
+          <div class="play-overlay" aria-hidden="true">
+            <svg viewBox="0 0 24 28"><path d="M0 0 L20 14 L0 28 z"></path></svg>
+          </div>
+        </div>
+        <div class="video-thumb" role="listitem" tabindex="0" data-index="2" aria-label="Star Wars characters Kylo Ren in black cloak and mask">
+          <img src="img\kpop2" alt="Dark shot of Kylo Ren in black cloak and mask with shadowed background" loading="lazy" />
+          <div class="play-overlay" aria-hidden="true">
+            <svg viewBox="0 0 24 28"><path d="M0 0 L20 14 L0 28 z"></path></svg>
+          </div>
+        </div>
+        <div class="video-thumb" role="listitem" tabindex="0" data-index="3" aria-label="Star Wars Stormtroopers and battle">
+          <img src="img\kpop3" alt="Stormtroopers preparing for battle in Star Wars movie scenes" loading="lazy" />
+          <div class="play-overlay" aria-hidden="true">
+            <svg viewBox="0 0 24 28"><path d="M0 0 L20 14 L0 28 z"></path></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="synopsis" tabindex="0" aria-label="Synopsis section">
+      <h2>SYNOPSIS</h2>
+      <div id="synopsis-container">
+        <div class="synopsis-info" aria-label="Movie release and crew information">
+          <div><span class="label">RELEASE DATE</span><br /><span class="value">20 JUNE 2025 (USA)</span></div>
+          <div><span class="label">DIRECTOR</span><br /><span class="value">MAGGIE KANG AND CHRIS APPELHANS</span></div>
+          <div><span class="label">RUNNING TIME</span><br /><span class="value">1 HOUR 35 MINUTES</span></div>
+          <div><span class="label">NETFLIX SERIES</span><br /><span class="value">KPOP DEMON HUNTERS</span></div>
+          <div><span class="label">GENRE</span><br /><span class="value">MUSICAL AND ACTION</span></div>
+        </div>
+        <p class="synopsis-text" aria-label="Synopsis text">
+        "K-Pop Demon Hunters" follows a world-renowned K-pop girl group, Huntr/x, who secretly work as demon hunters to protect their fans from supernatural threats. They balance their pop star lives with their demon-slaying duties, facing off against a rival boy band of demons in disguise. The film explores themes of identity, hidden strengths, and the power of music. 
+
+        </p>
+    </div>
+    </section>
+
+    <section id="cast" tabindex="0" aria-label="Cast section">
+      <h2>CAST</h2>
+      <div class="cast-slider" role="list" aria-label="Star Wars cast members">
+        <button class="cast-arrow" aria-label="Previous cast member" id="cast-prev" tabindex="0">←</button>
+        <div class="cast-member" role="listitem" tabindex="0" aria-label="Harrison Ford as Han Solo">
+          <img src="img\zoey" alt="Portrait photograph of Harrison Ford" onerror="this.onerror=null;this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c8407053-3ca6-4ca1-a73d-f291321d0322.png'"/>
+          <div class="cast-name"></div>
+          <div class="cast-role">ZOEY</div>
+        </div>
+        <div class="cast-member" role="listitem" tabindex="0" aria-label="Mark Hamill as Luke Skywalker">
+          <img src="img\rumi" alt="Portrait photograph of Mark Hamill" onerror="this.onerror=null;this.src='https://placehold.co/88x88?text=Image+Not+Available'"/>
+          <div class="cast-name"></div>
+          <div class="cast-role">RUMI</div>
+        </div>
+        <div class="cast-member" role="listitem" tabindex="0" aria-label="John Boyega as Finn">
+          <img src="img\mira" alt="Portrait photograph of John Boyega" onerror="this.onerror=null;this.src='https://placehold.co/88x88?text=Image+Not+Available'"/>
+          <div class="cast-name"></div>
+          <div class="cast-role">MIRA</div>
+        </div>
+        <button class="cast-arrow" aria-label="Next cast member" id="cast-next" tabindex="0">→</button>
+      </div>
+    </section>
+
+    <section id="tickets" tabindex="0" aria-label="Tickets section">
+      <h2></h2>
+     
+      </div>
+      <button id="get-tickets-btn-bottom" aria-label="Get tickets"></button>
+    </section>
+  </main>
+
+  <script>
+    // Highlighting videos on click
+    const videoThumbs = document.querySelectorAll('.video-thumb');
+    videoThumbs.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        document.querySelector('.video-thumb.selected').classList.remove('selected');
+        thumb.classList.add('selected');
+      });
+      thumb.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          thumb.click();
+        }
+      });
+    });
+
+    // Cast slider logic (simple scroll snap emulate)
+    const castSlider = document.querySelector('.cast-slider');
+    const castPrev = document.getElementById('cast-prev');
+    const castNext = document.getElementById('cast-next');
+
+    castPrev.addEventListener('click', () => {
+      castSlider.scrollBy({ left: -100, behavior: 'smooth' });
+    });
+    castNext.addEventListener('click', () => {
+      castSlider.scrollBy({ left: 100, behavior: 'smooth' });
+    });
+
+    // Countdown Timer for Tickets
+    function countdownTimer() {
+      // Countdown to date in the screenshot: 1 day, 7 hours, 10 min from reference moment
+      // Let's set an arbitrary date in the future for the countdown (1 day 7 hours 10 min ahead)
+      // or specifically for demonstration, countdown to 2 days from now + 7 hours 10 min
+
+      const now = new Date();
+      const countdownEnd = new Date(now.getTime() + (1*24*60 + 7*60 + 10)*60*1000); // 1d7h10m from now
+
+      function update() {
+        const currentTime = new Date();
+        let diff = countdownEnd - currentTime;
+
+        if (diff < 0) {
+          diff = 0;
+          clearInterval(timerInterval);
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      }
+
+      update();
+      const timerInterval = setInterval(update, 60000);
+    }
+
+    countdownTimer();
+
+    // Keyboard accessibility for burger menu (no actual menu implemented, but toggle aria-expanded)
+    const burger = document.getElementById('burger');
+    burger.addEventListener('click', () => {
+      const expanded = burger.getAttribute('aria-expanded') === 'true';
+      burger.setAttribute('aria-expanded', String(!expanded));
+    });
+    burger.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        burger.click();
+      }
+    });
+  </script>
+</body>
+</html>
+
